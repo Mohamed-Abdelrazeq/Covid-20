@@ -6,7 +6,6 @@ import 'package:flip_card/flip_card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-
 class CovidNewsPage extends StatelessWidget {
 
   CovidNewsPage({@required this.countryName});
@@ -23,8 +22,14 @@ class CovidNewsPage extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         Widget myReturn;
         if (snapshot.hasData) {
-          myReturn = Scaffold(
-            backgroundColor: Color(0xffF8F8F4),
+          myReturn =  Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Color(0xff83a4d4), Color(0xffb6fbff)]),),
+              child:Scaffold(
+            backgroundColor: Color(0xffF8F8F4).withOpacity(0),
             body: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -46,16 +51,22 @@ class CovidNewsPage extends StatelessWidget {
                 ),
               ],
             ),
-          );
+          ));
         }
         else if (snapshot.hasError) {
           myReturn = Center(child: Text('error'));
         }
         else {
-          myReturn = Scaffold(
-            backgroundColor: Color(0xffF8F8F4),
+          myReturn =  Container(
+              decoration: BoxDecoration(
+              gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Color(0xff83a4d4), Color(0xffb6fbff)]),),
+        child:Scaffold(
+          backgroundColor: Color(0xffF8F8F4).withOpacity(0),
             body: spanner,
-          );
+          ));
         }
         return myReturn;
       },
@@ -137,7 +148,7 @@ Future<Map> getData(String countryName) async {
   //decode the results
   var jsonResponse = convert.jsonDecode(response.body);
   //check the request status TODO try this
-  // print('Response status: ${response.statusCode}');
+  // print('Response status: ${response.body}');
   //get list of the data I want --TODO try to print after every step to see your data and parse it yourself
   var myList = jsonResponse['response'];
   var egypt ;
@@ -163,13 +174,13 @@ Future<Map> getData(String countryName) async {
     'casesNew'      :'$casesNew',
     'casesRecovered':'$casesRecovered',
     'casesTotal'    :'$casesTotal',
-    'deathsNew':'$deathsNew',
-    'deathsTotal':'$deathsTotal',
+    'deathsNew'     :'$deathsNew',
+    'deathsTotal'   :'$deathsTotal',
   };
 }
 
 var spanner = SpinKitRotatingCircle(
-  color: Color(0xff8cd0d7),
+  color: Colors.black54,
   size: 50.0,
 );
 
